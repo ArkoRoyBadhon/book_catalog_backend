@@ -17,6 +17,11 @@ const UserSchema = new Schema<IUser, UserModel>(
       required: true,
       select: 0,
     },
+    email: {
+      type: String,
+      required: true,
+      select: 0,
+    },
     name: {
       type: {
         firstName: {
@@ -38,8 +43,11 @@ const UserSchema = new Schema<IUser, UserModel>(
 
 UserSchema.statics.isUserExist = async function (
   userId: string,
-): Promise<Pick<IUser, "_id" | "role" | "password"> | null> {
-  return await User.findOne({ _id: userId }, { _id: 1, password: 1, role: 1 });
+): Promise<Pick<IUser, "_id" | "email" | "role" | "password"> | null> {
+  return await User.findOne(
+    { _id: userId },
+    { _id: 1, email: 1, password: 1, role: 1 },
+  );
 };
 
 UserSchema.statics.isPasswordMatched = async function (

@@ -35,9 +35,9 @@ const createUser = async (payload: IUser): Promise<Partial<IUser>> => {
 const loginUser = async (
   payload: ILoginAllUser,
 ): Promise<ILoginAllUserResponse> => {
-  const { phoneNumber, password } = payload;
+  const { email, password } = payload;
 
-  const NormalUser = await User.findOne({ phoneNumber });
+  const NormalUser = await User.findOne({ email });
 
   const id = NormalUser?.id;
 

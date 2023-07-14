@@ -4,7 +4,7 @@ import config from "./config";
 
 async function bootsrap() {
   try {
-    await mongoose.connect(config.database_url as string)
+    await mongoose.connect(config.database_url as string);
 
     console.log("Database is connected successfully");
 
@@ -12,7 +12,7 @@ async function bootsrap() {
       console.log(`Application listening on port ${config.port}`);
     });
   } catch (err) {
-    console.log(`failed to connect database`, err)
+    console.log(`failed to connect database`, err);
   }
 }
 
