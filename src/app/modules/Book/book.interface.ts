@@ -4,6 +4,7 @@ export type IBook = {
   _id?: Types.ObjectId;
   Title: string;
   Author: string;
+  AuthorId: string;
   Genre: string;
   PublicationDate: Date;
 };

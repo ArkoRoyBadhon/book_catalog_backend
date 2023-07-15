@@ -3,6 +3,9 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { BookService } from "./book.service";
+import pick from "../../../shared/pick";
+import { paginationFields } from "../../../constant/pagination";
+import { bookFilterOptions } from "./book.constant";
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const { ...bookData } = req.body;
@@ -18,12 +21,16 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookService.getAllBooks();
+  const filters = pick(req.query, bookFilterOptions);
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await BookService.getAllBooks(filters, paginationOptions);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "User Get Successfully",
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

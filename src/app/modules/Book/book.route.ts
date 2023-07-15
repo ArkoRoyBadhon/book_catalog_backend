@@ -5,6 +5,6 @@ import { bookController } from "./book.controller";
 const router = express.Router();
 
 router.post("/createbook", bookController.createBook);
-router.get("/getallbook", bookController.getAllBooks);
+router.get("/getallbooks", bookController.getAllBooks);
 
 export const BookRoutes = router;
