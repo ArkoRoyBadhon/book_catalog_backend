@@ -111,8 +111,29 @@ const refreshToken = async (token: string): Promise<IRefreshTokenresponse> => {
   };
 };
 
+const getLoggedUser = async (token: string) => {
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwtHelpers.verifyToken(token, config.jwt.secret as Secret);
+  } catch (error) {
+    throw new ApiError(httpStatus.FORBIDDEN, "Invalid access Token");
+  }
+  const { Id } = verifiedToken;
+
+  const isUserExist = await User.isUserExist(Id);
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+  }
+
+  const result = await User.findOne({ _id: Id });
+
+  return result;
+};
+
 export const AuthService = {
   createUser,
   loginUser,
   refreshToken,
+  getLoggedUser,
 };

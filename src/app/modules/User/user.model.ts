@@ -20,7 +20,6 @@ const UserSchema = new Schema<IUser, UserModel>(
     email: {
       type: String,
       required: true,
-      select: 0,
     },
     name: {
       type: {

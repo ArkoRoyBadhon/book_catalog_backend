@@ -19,6 +19,22 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getUser = catchAsync(async (req: Request, res: Response) => {
+  const authorizationHeader = req.headers["authorization"];
+
+  if (typeof authorizationHeader === "string") {
+    const token = authorizationHeader.split(" ")[1];
+    console.log(token);
+    const result = await AuthService.getLoggedUser(token);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "User Created Successfully",
+      data: result,
+    });
+  }
+});
+
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.loginUser(loginData);
@@ -61,6 +77,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
 export const AuthController = {
   createUser,
+  getUser,
   loginUser,
   refreshToken,
 };
