@@ -29,6 +29,13 @@ const createBook = async (payload: IBook): Promise<Partial<IBook>> => {
   return result;
 };
 
+const getAllBooks = async (): Promise<Partial<IBook[]>> => {
+  const result = await Book.find({});
+
+  return result;
+};
+
 export const BookService = {
   createBook,
+  getAllBooks,
 };
