@@ -1,6 +1,7 @@
 export const bookFilterOptions = [
+  "searchTerm",
   "Author",
   "Genre",
-  "PublicationDate",
   "Title",
+  "PublicationYear",
 ];

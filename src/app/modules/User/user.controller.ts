@@ -9,6 +9,8 @@ import { ILoginAllUserResponse } from "../../../interfaces/auth";
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { ...userData } = req.body;
 
+  // console.log("Signup",userData);
+
   const result = await AuthService.createUser(userData);
 
   sendResponse(res, {
@@ -24,7 +26,7 @@ const getUser = catchAsync(async (req: Request, res: Response) => {
 
   if (typeof authorizationHeader === "string") {
     const token = authorizationHeader.split(" ")[1];
-    console.log(token);
+
     const result = await AuthService.getLoggedUser(token);
     sendResponse(res, {
       statusCode: httpStatus.OK,

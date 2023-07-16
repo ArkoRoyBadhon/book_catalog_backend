@@ -15,7 +15,7 @@ const createUser = async (payload: IUser): Promise<Partial<IUser>> => {
   const existingUser = await User.findOne({
     "name.firstName": payload.name.firstName,
     "name.lastName": payload.name.lastName,
-    role: payload?.role,
+    email: payload.email,
   });
 
   if (existingUser) {
@@ -55,16 +55,16 @@ const loginUser = async (
   }
 
   // create access token & refresh token
-  const { _id: Id, role } = isUserExist;
+  const { _id: Id } = isUserExist;
 
   const accessToken = jwtHelpers.createToken(
-    { Id, role },
+    { Id },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
   );
 
   const refreshToken = jwtHelpers.createToken(
-    { Id, role },
+    { Id },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string,
   );
@@ -87,11 +87,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenresponse> => {
   }
   const { Id } = verifiedToken;
 
-  console.log(Id);
-  console.log(verifiedToken);
-
   const isUserExist = await User.isUserExist(Id);
-  console.log("exist", isUserExist);
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
@@ -100,7 +96,6 @@ const refreshToken = async (token: string): Promise<IRefreshTokenresponse> => {
   const newAccessToken = jwtHelpers.createToken(
     {
       _id: isUserExist._id,
-      role: isUserExist.role,
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string,
