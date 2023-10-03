@@ -30,9 +30,11 @@ const createBook = async (payload: IBook): Promise<Partial<IBook>> => {
     Title: payload.Title,
     Author: payload.Author,
     Genre: payload.Genre,
-    PublicationDate: new Date(),
+    PublicationDate: payload?.PublicationDate || 2023,
     AuthorId: payload.AuthorId,
   };
+
+  // console.log("book get", newBook);
 
   const result = await Book.create(newBook);
 
@@ -80,6 +82,17 @@ const getAllBooks = async (
   //     },
   //   });
   // }
+
+  if (PublicationYear) {
+    andConditions.push({
+      // $and: {
+      PublicationDate: PublicationYear,
+      // },
+    });
+  }
+
+  // console.log(PublicationYear && PublicationYear.length);
+  // console.log("date", PublicationYear);
 
   if (filtersData.Genre!.length > 0) {
     if (Object.keys(filtersData).length) {
